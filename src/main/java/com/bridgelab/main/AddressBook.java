@@ -52,4 +52,16 @@ public class AddressBook {
         }
 
     }
+
+    public void delete() {
+        System.out.println("Enter First Name of Persion");
+        String editName = sc.nextLine();
+        if (editName.equals(contact.firstName)){
+            System.out.println("you are deleted "+ contact.firstName+"data");
+
+            contact=null;
+
+        }
+
+    }
 }
