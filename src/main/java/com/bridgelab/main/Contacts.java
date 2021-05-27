@@ -1,5 +1,5 @@
-package com.bridgelab.main;
 
+package com.bridgelab.main;
 public class Contacts {
     String firstName;
     String lastName;
@@ -9,6 +9,23 @@ public class Contacts {
     Long zipCode;
     Long phoneNumber;
     String email;
+
+    public Contacts(String firstName, String lastName, String address, String city, String state, Long zipCode, Long phoneNumber, String email) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Contacts() {
+
+    }
+
 
     public String getFirstName() {
         return firstName;
