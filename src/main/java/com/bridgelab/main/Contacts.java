@@ -104,6 +104,8 @@ public class Contacts {
         this.email = email;
     }
 
+
+/*
     @Override
     public String toString() {
         return "Contacts{" +
@@ -117,4 +119,5 @@ public class Contacts {
                 ", email='" + email + '\'' +
                 '}';
     }
+*/
 }

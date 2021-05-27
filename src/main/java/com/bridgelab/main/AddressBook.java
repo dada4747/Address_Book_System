@@ -1,11 +1,30 @@
 package com.bridgelab.main;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBook {
     Contacts contact = new Contacts();
     Scanner sc = new Scanner(System.in);
     ArrayList<Contacts> contactArrayList = new ArrayList<Contacts>();
+    Map<String, Contacts> contactsMap = new HashMap<String, Contacts>();
+    public void addlisttomap(){
+        for(int i = 0; i < contactArrayList.size() ; i++) {
+            contactsMap.put(contactArrayList.get(i).email, contactArrayList.get(i));
+        }
+        for (Map.Entry<String, Contacts> entry : contactsMap.entrySet()) {
+            System.out.print(entry.getKey() + "\t\t\t\t" +
+                    entry.getValue().getFirstName() + "\t\t\t\t\t" +
+                    entry.getValue().getLastName() +"\t\t\t"+
+                    entry.getValue().getAddress() +"\t\t\t\t"+
+                    entry.getValue().getCity() +"\t\t\t\t\t"+
+                    entry.getValue().getZipCode() +"\t\t\t\t\t"+
+                    entry.getValue().getPhoneNumber() +"\t\t\t\t\t"+
+                    entry.getValue().getEmail());
+            System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
+        }
+    }
     public void addContact() {
         System.out.println("Please Enter Following data....!");
         System.out.print("Enter First Name: ");
@@ -95,9 +114,9 @@ public class AddressBook {
         if (contactArrayList.isEmpty()){
             System.out.println("There no contacts available for show...");
         }else {
-            System.out.println("Sr No." + " First Name\t\t\tLast Name\t\t\tAddress\t\t\tCity\t\t\tZip Code\t\t\tMobile Number\t\t\tEmail Id ");
+            System.out.println("ContactId" + " First Name\t\t\tLast Name\t\t\tAddress\t\t\tCity\t\t\tZip Code\t\t\tMobile Number\t\t\tEmail Id ");
 
-            for (int i = 0; i < contactArrayList.size(); i++) {
+            /*for (int i = 0; i < contactArrayList.size(); i++) {
                 System.out.print((i + 1) + "\t\t" + contactArrayList.get(i).getFirstName() + "\t\t\t\t\t" +
                         contactArrayList.get(i).getLastName() +"\t\t\t"+
                         contactArrayList.get(i).getAddress() +"\t\t\t\t"+
@@ -106,9 +125,10 @@ public class AddressBook {
                         contactArrayList.get(i).getPhoneNumber() +"\t\t\t\t\t"+
                         contactArrayList.get(i).getEmail());
                 System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
-            }
+            }*/
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------------");
+        addlisttomap();
     }
     public void getMenu() {
         System.out.println("------------------Menu For AddressBooK------------------");
