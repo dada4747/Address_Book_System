@@ -1,42 +1,57 @@
 package com.bridgelab.main;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
-
 public class AddressBook {
-    public ArrayList<Contacts> contactList = new ArrayList<>();
-    public boolean addContact(Contacts contact) {
+    public static final ArrayList<Contacts> contactList = new ArrayList<>();
+    public static Map<String, Contacts> nameHashMap = new HashMap<String, Contacts>();
+    public static Map<String, Contacts> cityHashMap = new HashMap<String, Contacts>();
+    public static Map<String, Contacts> stateHashMap = new HashMap<String, Contacts>();
+
+    static Scanner sc = new Scanner(System.in);
+    static AddressBook addressBook = new AddressBook();
+    public static boolean addContact(Contacts contact) {
         List<Contacts> checkByName = searchByName(contact.getfName());
-        for (Contacts equalName : checkByName)
+        for (Contacts equalName : checkByName) {
             if (equalName.equals(contact))
                 return false;
+        }
         contactList.add(contact);
+        nameHashMap.put(contact.getfName(), contact);
+        cityHashMap.put(contact.getCity(), contact);
+        stateHashMap.put(contact.getState(),contact);
         return true;
     }
     //method for search contact by name
-    public List<Contacts> searchByName(String name) {//collection list of element
+    public static List<Contacts> searchByName(String name) {//collection list of element
         //stream and lambda for find filter given name from arraylist
         return contactList.stream().filter(person -> person.getfName().equalsIgnoreCase(name)).collect(Collectors.toList());
      }
-     public List<Contacts> searchByCity(String city) {
+    public static List<Contacts> searchByCity(String city) {
         return contactList.stream().filter(person -> person.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
     }
-    public List<Contacts> searchByState(String state) {
+    public static List<Contacts> searchByState(String state) {
         return contactList.stream().filter(person -> person.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
     }
-
-
+    public static void viewByName(Map<String, Contacts> nameHashMap) {
+        nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
+    }
+    public static void viewByCity(Map<String, Contacts> cityHashMap) {
+        cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
+    }
+    public static void viewByState(Map<String, Contacts> stateHashMap) {
+        stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
+    }
     //method for edit contact
-    public boolean editContact(Contacts current, Contacts edit) {
-        if (!contactList.contains(current))
+    public static boolean editContact(Contacts current, Contacts editedContact) {
+        if (!contactList.contains(current)){
             return false;
+        }
         contactList.remove(current);
-        contactList.add(edit);
+        contactList.add(editedContact);
         return true;
     }
     //method for delete contact
-    public boolean deleteContact(Contacts contacts) {
+    public static boolean deleteContact(Contacts contacts) {
         contactList.remove(contacts);
         return true;
     }
@@ -75,7 +90,7 @@ public class AddressBook {
         return new Contacts(firstName, lastName, address, city, state, zip, phoneNum, email);
     }
     //method for show option for contacts
-    public static void addressBookOptions(AddressBook addressBook) {
+    public void addressBookOptions(AddressBook addressBook) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("\n-------------------------- Address Book Contact Option --------------------------");
@@ -89,7 +104,8 @@ public class AddressBook {
             sc.nextLine();
             switch (choice) {
                 case 1:
-                    if (addressBook.addContact(readContact()))   //call addcontact with passing method readcontact
+                    if (addContact(readContact()))   //call addcontact with passing method readcontact
+
                         System.out.println("Cotact Added Successfully....!");
                     else
                         System.out.println("Contact Already Exist....!");
@@ -97,83 +113,105 @@ public class AddressBook {
                 case 2:
                     System.out.println("Enter First name to edit contact: ");
                     String name = sc.nextLine();
-                    List<Contacts> equalName = addressBook.searchByName(name);//list of equal first name
+                    List<Contacts> equalName = searchByName(name);//list of equal first name
                     if (equalName.isEmpty())//if not match found
                         System.out.println("Data Not Found....!");
                     else if (equalName.size() == 1) {//if only one equal match found
-                        addressBook.editContact(equalName.get(0), readContact()); //call edit method with name and method parameter
+                        editContact(equalName.get(0), readContact()); //call edit method with name and method parameter
                         System.out.println("Contact data modified....!");
-                    }else {//if more than one firstname match found in equal name list
+                    }else {
+                        //if more than one firstname match found in equal name list
                         equalName.forEach(x -> System.out.println(equalName.indexOf(x) + "  " + x.toString()));
                         System.out.println("Enter index to edit : ");
                         int i = sc.nextInt();
                         sc.nextLine();
-                        addressBook.editContact(equalName.get(i), readContact());
+                        editContact(equalName.get(i), readContact());
                         System.out.println("Contact Modified....!");
                     }
                     break;
                 case 3:
                     System.out.println("Enter First name to delete contact: ");
                     name = sc.nextLine();
-                    equalName = addressBook.searchByName(name);
+                    equalName = searchByName(name);
                     if (equalName.isEmpty())
                         System.out.println("Data Not Found.....!");
                     else if (equalName.size() == 1){
-                        addressBook.deleteContact(equalName.get(0));
+                        deleteContact(equalName.get(0));
                         System.out.println("Contact data deleted....!");
                     }else {
                         equalName.forEach(x -> System.out.println(equalName.indexOf(x) + "  " + x.toString()));
                         System.out.println("Enter an index to delete");
                         int index = sc.nextInt();
                         sc.nextLine();
-                        addressBook.deleteContact(equalName.get(index));
+                        deleteContact(equalName.get(index));
                         System.out.println("Cotact data deleted....!");
                     }
                     break;
                 case 4:
-                    System.out.println(addressBook.toString()); //call tostring method for showing details
+                    System.out.println(toString()); //call tostring method for showing details
                     break;
                 case 5:
-                    return;
+                    return ;
                 default:
                     System.out.println("Invalid Choice!");
                     break;
             }
         }
     }
-
-    public void searchByOptions() {
-        AddressBook addressBook = new AddressBook();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("1. By name");
-        System.out.println("2. By city");
-        System.out.println("3. By state");
+    //method for search contacts by option
+    public static void searchByOptions() {
+        System.out.println("1. Search By name");
+        System.out.println("2. Search By city");
+        System.out.println("3. Search By state");
         System.out.println("4. Back");
-        System.out.println("Your choice: ");
+        System.out.print("Enter Your choice: ");
         int choice =sc.nextInt();
         sc.nextLine();
-        switch (choice){
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter name: ");
+                    String name = sc.nextLine();
+                    contactList.forEach(book -> addressBook.searchByName(name).forEach(System.out::println));
+                    break;
+                case 2:
+                    System.out.print("Enter city: ");
+                    String city = sc.nextLine();
+                    contactList.forEach(book -> addressBook.searchByCity(city).forEach(System.out::println));
+                    break;
+                case 3:
+                    System.out.print("Enter state: ");
+                    String state = sc.nextLine();
+                    contactList.forEach(book -> addressBook.searchByState(state).forEach(System.out::println));
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("INVALID CHOICE!");
+            }
+    }
+    //method for view element by option
+    public static void viewByOption(Map<String, AddressBook> addressBookMap) {
+        System.out.println("1. View By name");
+        System.out.println("2. View By city");
+        System.out.println("3. View By state");
+        System.out.println("4. Back");
+        System.out.print("Enter Your choice: ");
+        int choice =sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
             case 1:
-                System.out.println("Enter name: ");
-                String name=sc.nextLine();
-                contactList.forEach(book -> searchByName(name).forEach(System.out::println));
+                viewByName(nameHashMap);
                 break;
             case 2:
-                System.out.println("Enter city: ");
-                String city=sc.nextLine();
-                contactList.forEach(book -> searchByCity(city).forEach(System.out::println));
+                viewByCity(cityHashMap);
                 break;
             case 3:
-                System.out.println("Enter state: ");
-                String state=sc.nextLine();
-                contactList.forEach(book -> searchByState(state).forEach(System.out::println));
+                viewByState(stateHashMap);
                 break;
             case 4:
                 return;
             default:
                 System.out.println("INVALID CHOICE!");
         }
-
-
     }
 }

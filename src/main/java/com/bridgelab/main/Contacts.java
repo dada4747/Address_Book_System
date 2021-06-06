@@ -1,5 +1,7 @@
 package com.bridgelab.main;
 
+//import org.demo.com.Contact;
+
 public class Contacts {
     private String fName;
     private String lName;
@@ -20,20 +22,6 @@ public class Contacts {
         this.zip = zip;
         this.phone = phone;
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return
-                "\nFirst_Name  : " + fName +
-                "\nLast_Name   : " + lName +
-                "\nAddress     : " + address +
-                "\nCity        : " + city +
-                "\nState       : " + state +
-                "\nZIP Code    : " + zip +
-                "\nPhone_Number: " + phone +
-                "\nEmail_ID    : " + email +
-                "\n-----------------------------------";
     }
 
     public String getfName() {
@@ -59,4 +47,64 @@ public class Contacts {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Long getZip() {
+        return zip;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Contacts))
+            return false;
+
+        Contacts other = (Contacts) obj;
+        if (!(fName.equalsIgnoreCase(other.getfName())))
+            return false;
+        if (!(lName.equalsIgnoreCase(other.getlName())))
+            return false;
+        if (!(address.equalsIgnoreCase(other.getAddress())))
+            return false;
+        if (!(city.equalsIgnoreCase(other.getCity())))
+            return false;
+        if (!state.equalsIgnoreCase(other.getState()))
+            return false;
+        if (!zip.equals(other.getZip()))
+            return false;
+        if (!(phone.equals(other.getPhone())))
+            return false;
+        return email.equals(other.getEmail());
+    }
+
+    @Override
+    public String toString() {
+        return
+                "\nFirst_Name  : " + fName +
+                "\nLast_Name   : " + lName +
+                "\nAddress     : " + address +
+                "\nCity        : " + city +
+                "\nState       : " + state +
+                "\nZIP Code    : " + zip +
+                "\nPhone_Number: " + phone +
+                "\nEmail_ID    : " + email +
+                "\n-----------------------------------";
+    }
+
 }
