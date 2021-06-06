@@ -27,24 +27,31 @@ public class AddressBook {
         //stream and lambda for find filter given name from arraylist
         return contactList.stream().filter(person -> person.getfName().equalsIgnoreCase(name)).collect(Collectors.toList());
      }
+    //method for search contact by City
     public static List<Contacts> searchByCity(String city) {
         return contactList.stream().filter(person -> person.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
     }
+    //method for search contact by State
     public static List<Contacts> searchByState(String state) {
         return contactList.stream().filter(person -> person.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
     }
+    //method for view contact by name
     public static void viewByName(Map<String, Contacts> nameHashMap) {
         nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
     }
+    //method for view contact by city
     public static void viewByCity(Map<String, Contacts> cityHashMap) {
         cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
     }
+    //method for view contact by State
     public static void viewByState(Map<String, Contacts> stateHashMap) {
         stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "="+ e.getValue().toString()));
     }
+    //method for sort contact by name, city, state
     public List<Contacts> sortBy(Function<? super Contacts, ? extends String> key) {
         return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
     }
+    //method for sort contact by zip
     public List<Contacts> sortByZip(Function<? super Contacts, ? extends Long> key) {
         return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
     }
