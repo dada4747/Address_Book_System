@@ -2,15 +2,16 @@ package com.bridgelab.main;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 public class AddressBook {
     public static final ArrayList<Contacts> contactList = new ArrayList<>();
     public static Map<String, Contacts> nameHashMap = new HashMap<String, Contacts>();
     public static Map<String, Contacts> cityHashMap = new HashMap<String, Contacts>();
     public static Map<String, Contacts> stateHashMap = new HashMap<String, Contacts>();
-
     static Scanner sc = new Scanner(System.in);
     static AddressBook addressBook = new AddressBook();
-    public static boolean addContact(Contacts contact) {
+
+    public static boolean   addContact(Contacts contact) {
         List<Contacts> checkByName = searchByName(contact.getfName());
         for (Contacts equalName : checkByName) {
             if (equalName.equals(contact))
@@ -26,7 +27,7 @@ public class AddressBook {
     public static List<Contacts> searchByName(String name) {//collection list of element
         //stream and lambda for find filter given name from arraylist
         return contactList.stream().filter(person -> person.getfName().equalsIgnoreCase(name)).collect(Collectors.toList());
-     }
+    }
     //method for search contact by City
     public static List<Contacts> searchByCity(String city) {
         return contactList.stream().filter(person -> person.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
@@ -114,13 +115,12 @@ public class AddressBook {
             System.out.println("4. Show contacts details");
             System.out.println("5. Sort Address Book");
             System.out.println("6. Back to main menu");
-            System.out.print("Enter Your choice: ");
+             System.out.print("Enter Your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
             switch (choice) {
                 case 1:
                     if (addContact(readContact()))   //call addcontact with passing method readcontact
-
                         System.out.println("Cotact Added Successfully....!");
                     else
                         System.out.println("Contact Already Exist....!");
@@ -288,4 +288,5 @@ public class AddressBook {
                 System.out.println("INVALID CHOICE!");
         }
     }
+
 }
